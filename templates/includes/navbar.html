@@ -1,0 +1,67 @@
+<!-- templates/includes/navbar.html -->
+
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Logo -->
+  <a class="nav-brand" href="{% url 'domeinen:home' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+<!-- buttons -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <!-- Linkerkant van de Navbar -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'domeinen:home' %}">Home </a>
+      </li>
+      <!-- Domeinen menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Domeinbeheer 
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <li><a class="dropdown-item" href="{% url 'domeinen:all-domeinen' %}">Alle Domeinen</a></li>
+          <li><a class="dropdown-item" href="{% url 'domeinen:all-subdomeinen' %}">Alle Subdomeinen</a></li>
+          {% if user.is_authenticated %}
+            <li><a class="dropdown-item" href="{% url 'domeinen:all-certificaten' %}">Alle Certificaten</a></li>
+            <li><a class="dropdown-item" href="{% url 'domeinen:all-contacten' %}">Alle Contacten</a></li>
+            <li><a class="dropdown-item" href="{% url 'domeinen:all-servers' %}">Alle Servers</a></li>
+          {% endif %}
+        </ul>
+      </li>
+    </ul>
+    <!-- Rechterkant van de Navbar -->
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <!-- Usermanagement -->
+      {% if user.is_authenticated %}
+      <li class="nav-item dropdown dropstart">
+        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ user.username }}
+        </a>
+        <ul class="dropdown-menu">
+          {% if request.user.is_authenticated %}
+          <ul class="sidenav">
+            <li><a {% if 'account' in request.path %}class="active"{% endif %} class="dropdown-item" href="{% url 'users:account' %}">User Account ({{request.user.username}})</a></li>
+            <li><a {% if 'info' in request.path %}class="active"{% endif %} class="dropdown-item" href="{% url 'users:user-info' %}">User Info</a></li>
+            <li><a class="dropdown-item" href="{% url 'users:sign-out' %}">Sign Out</a></li>
+          </ul>
+          {% else %}
+          <ul class="sidenav">
+            <li><a {% if 'sign-in' in request.path %}class="active"{% endif %} class="dropdown-item" href="{% url 'users:sign-in' %}">Sign in</a></li>
+            <li><a {% if 'sign-up' in request.path %}class="active"{% endif %} class="dropdown-item" href="{% url 'users:sign-up' %}">Sign up</a></li>
+          </ul>
+          {% endif %}
+        </ul>
+      </li>              
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:sign-in' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:sign-up' %}">Register</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
