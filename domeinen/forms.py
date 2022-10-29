@@ -1,11 +1,11 @@
 # domeinen/forms.py
 
-# Django
+# django
 from django import forms
 from django.forms import ModelForm, DateInput
 
-# Local
-from .models import Domein, Contact
+# local
+from .models import Domein, Subdomein, Contact
 
 # Domeinform
 class DomeinForm(ModelForm):
@@ -33,6 +33,36 @@ class DomeinForm(ModelForm):
   # waar was dit ook alweer voor??
   def __init__(self, *args, **kwargs):
     super(DomeinForm, self).__init__(*args, **kwargs)
+    # input_formats parses HTML5 datetime-local input to datetime field
+    self.fields['start'].input_formats = ('%Y-%m-%d',)
+    self.fields['end'].input_formats = ('%Y-%m-%d',)
+
+# Subdomeinform
+class SubdomeinForm(ModelForm):
+  class Meta:
+    model = Subdomein
+    # fields = '__all__'
+    fields = ('url', 'description', 'start', 'end', 'betrokkenen')
+    # exclude = ('slug', 'uuid', 'start_at', 'end_at', 'created')
+    labels  = {
+      'url'         : 'URL van het domein',
+      'description' : 'Omschrijving',
+      'start'       : 'Start geldigheid',
+      'end'         : 'Einde geldigheid',
+      'betrokkenen' : 'Betrokkene(n)'
+    }
+    # datetime-local is a HTML5 input type, format to make date time show on fields
+    widgets = {
+      'url'         : forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'URL van het domein'}),
+      'description' : forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'hier uw domeinbeschrijving...', 'rows': 4}),
+      'start'       : DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
+      'end'         : DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
+      'betrokkenen' : forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'betrokkenen'}),
+    }
+
+  # waar was dit ook alweer voor??
+  def __init__(self, *args, **kwargs):
+    super(SubdomeinForm, self).__init__(*args, **kwargs)
     # input_formats parses HTML5 datetime-local input to datetime field
     self.fields['start'].input_formats = ('%Y-%m-%d',)
     self.fields['end'].input_formats = ('%Y-%m-%d',)

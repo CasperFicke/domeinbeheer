@@ -13,9 +13,10 @@ from rest_framework.response import Response
 
 # local
 from .models import Certificaat, Domein, Subdomein, Contact, Rol, Server, Service
-from .forms import DomeinForm, ContactForm
+from .forms import DomeinForm, SubdomeinForm, ContactForm
 from .filters import DomeinFilter
 from .serializers import RolSerializer
+from .utils import urlisonline
 from datetime import datetime, timedelta, date
 import csv
 
@@ -114,7 +115,7 @@ def all_domeinen(request):
   domein_list  = Domein.objects.all().order_by("url")
   domein_count = domein_list.count()
   # Filtering
-  domFilter = DomeinFilter(request.GET, queryset=domein_list)
+  domFilter   = DomeinFilter(request.GET, queryset=domein_list)
   domein_list = domFilter.qs
 
   # Set up pagination
@@ -163,9 +164,11 @@ def show_domein(request, domein_uuid, domein_slug):
   try:
     domein   = Domein.objects.get(uuid=domein_uuid)
     title    = 'domein: ' + domein.url
+    urlcheck = urlisonline(domein.url)
     context  = {
       'title'  : title,
       'domein' : domein,
+      'urlcheck' : urlcheck,
     }
     return render(request, 'domeinen/show_domein.html', context)
   except:
@@ -198,7 +201,7 @@ def edit_domein(request, domein_uuid, domein_slug):
   if form.is_valid():
     form.save()
     messages.success(request, ("Domein " + domein.url + " has been updated!"))
-    return redirect('all-domeinen')
+    return redirect('domeinen:all-domeinen')
   context = {
     'title' : title,
     'domein': domein, 'form': form
@@ -261,13 +264,13 @@ def edit_subdomein(request, subdomein_uuid, subdomein_slug):
   if form.is_valid():
     form.save()
     messages.success(request, ("Subdomein " + subdomein.url + " has been updated!"))
-    return redirect('all-subdomeinen')
+    return redirect('domeinen:all-subdomeinen')
   context = {
     'title'    : title,
     'subdomein': subdomein,
     'form'     : form
   }
-  return render(request, 'domeinen/subdomeinen/edit_subdomein.html', context)
+  return render(request, 'domeinen/edit_subdomein.html', context)
 
 # Delete subdomein
 def delete_subdomein(request, subdomein_uuid, subdomein_slug):
@@ -386,7 +389,7 @@ def edit_contact(request, contact_uuid):
   if form.is_valid():
     form.save()
     messages.success(request, ("Contact " + contact.name + " has been updated!"))
-    return redirect('all-contacten')
+    return redirect('domeinen:all-contacten')
   context = {
     'title' : title,
     'domein': contact, 'form': form

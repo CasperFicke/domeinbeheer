@@ -45,12 +45,12 @@
               <td>{{ contact.rol }}</td>
               {% if user.is_authenticated %}
                 {% if user.is_superuser %}
-                  <td><a href="{% url 'edit-contact' contact.uuid %}" class="btn btn-outline-secondary">Edit</a></td>
+                  <td><a href="{% url 'domeinen:edit-contact' contact.uuid %}" class="btn btn-outline-secondary">Edit</a></td>
                 {% else %}
                   <td>Not allowed</td>
                 {% endif %}
                 {% if user.is_superuser %}
-                  <td><a href="{% url 'delete-contact' contact.uuid %}" class="btn btn-outline-danger">Delete</a></td>
+                  <td><a href="{% url 'domeinen:delete-contact' contact.uuid %}" class="btn btn-outline-danger">Delete</a></td>
                 {% else %}
                   <td>Not allowed</td>
                 {% endif %}

@@ -23,7 +23,7 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <strong>Subdomein: {{ subdomein.url }}. </strong>
+        <strong>Subdomein: {{ subdomein.url }} </strong>
       </div>
       <div class="card-body">
         <h5 class="card-title">Hoofddomein: <a href="{{ subdomein.domein.get_absolute_url }}">{{ subdomein.domein.url }}</a></h5>
@@ -108,10 +108,10 @@
             <br>
             {% if user.is_superuser %}
             <br>
-            <a href="{% url 'edit-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-secondary">Edit</a>
-            <a href="{% url 'delete-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-secondary">Delete</a>
+            <a href="{% url 'domeinen:edit-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-secondary">Edit</a>
+            <a href="{% url 'domeinen:delete-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-secondary">Delete</a>
           {% endif %}
-          <a href="{% url 'all-subdomeinen' %}" class="btn btn-secondary">Terug</a>
+          <a href="{% url 'domeinen:all-subdomeinen' %}" class="btn btn-secondary">Terug</a>
           </p>
       </div>
     </div>

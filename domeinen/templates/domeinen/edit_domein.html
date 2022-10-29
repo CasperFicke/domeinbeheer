@@ -29,7 +29,7 @@
             </form>
           </div>
           <br>
-          <a href="{% url 'all-domeinen' %}" class="btn btn-secondary">Cancel</a>
+          <a href="{% url 'domeinen:all-domeinen' %}" class="btn btn-secondary">Cancel</a>
           <br>
         {% endif %}
         <br>
@@ -44,6 +44,6 @@
     {% endif %}
   {% else %}
     <h3> Opvragen van deze pagina is niet toegestaan. Hiervoor moet u ingelogd zijn!</h3>
-    <a href="{% url 'uswers:login' %}?next={{request.path}}">Login here</a>
+    <a href="{% url 'users:login' %}?next={{request.path}}">Login here</a>
   {% endif %}
 {% endblock content %}

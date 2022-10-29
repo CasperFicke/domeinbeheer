@@ -45,10 +45,10 @@
               </section>
               {% if user.is_superuser %}
                 <br>
-                <a href="{% url 'edit-contact' contact.uuid %}" class="btn btn-secondary" >Edit</a>
-                <a href="{% url 'delete-contact' contact.uuid %}" class="btn btn-secondary" >Delete</a>
+                <a href="{% url 'domeinen:edit-contact' contact.uuid %}" class="btn btn-secondary" >Edit</a>
+                <a href="{% url 'domeinen:delete-contact' contact.uuid %}" class="btn btn-secondary" >Delete</a>
               {% endif %}
-              <a href="{% url 'all-contacten' %}" class="btn btn-secondary">Terug</a>
+              <a href="{% url 'domeinen:all-contacten' %}" class="btn btn-secondary">Terug</a>
             </div>
             <div class='col-md-8'>
             <strong>Domeinen:</strong>

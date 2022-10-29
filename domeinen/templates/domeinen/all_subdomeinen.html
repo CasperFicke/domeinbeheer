@@ -52,12 +52,12 @@
               </td>
               {% if user.is_authenticated %}
                 {% if user.is_superuser %}
-                  <td><a href="{% url 'edit-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-outline-secondary">Edit</a></td>
+                  <td><a href="{% url 'domeinen:edit-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-outline-secondary">Edit</a></td>
                 {% else %}
                   <td>Not allowed</td>
                 {% endif %}
                 {% if user.is_superuser %}
-                  <td><a href="{% url 'delete-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-outline-danger">Delete</a></td>
+                  <td><a href="{% url 'domeinen:delete-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-outline-danger">Delete</a></td>
                 {% else %}
                   <td>Not allowed</td>
                 {% endif %}

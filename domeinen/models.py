@@ -1,5 +1,6 @@
 # domeinen/models.py
 
+from tabnanny import verbose
 import uuid
 
 # Django
@@ -15,16 +16,18 @@ from datetime import date
 
 # Server model
 class Server(models.Model):
+  class Meta:
+    verbose_name        = 'Server'
+    verbose_name_plural = 'Servers'
+    ordering            = ['naam']
+  # attributes
   naam        = models.CharField('Servernaam', max_length=100)
   description = models.TextField('Beschrijving', blank=True)
   # secundair
   uuid        = models.UUIDField(unique=True, default=uuid.uuid4, help_text='Unique identifier (UUID4)')
   
-  class Meta:
-    ordering = ['naam']
-  
   def get_absolute_url(self):
-    return reverse("show-server", args=[self.uuid])
+    return reverse("domeinen:show-server", args=[self.uuid])
   
   # functie om server in de admin web-pagina te kunnen presenteren
   def __str__(self):
@@ -32,6 +35,11 @@ class Server(models.Model):
 
 # Service model
 class Service(models.Model):
+  class Meta:
+    verbose_name        = 'Service'
+    verbose_name_plural = 'Services'
+    ordering            = ['naam', 'server']
+  # attributes
   naam        = models.CharField('Servicenaam', max_length=100)
   description = models.TextField('Beschrijving', blank=True)
   # relaties
@@ -39,11 +47,8 @@ class Service(models.Model):
   # secundair
   uuid        = models.UUIDField(unique=True, default=uuid.uuid4, help_text='Unique identifier (UUID4)')
   
-  class Meta:
-    ordering = ['naam', 'server']
-  
   def get_absolute_url(self):
-    return reverse("show-service", args=[self.uuid])
+    return reverse("domeinen:show-service", args=[self.uuid])
   
   # functie om service in de admin web-pagina te kunnen presenteren
   def __str__(self):
@@ -51,6 +56,10 @@ class Service(models.Model):
 
 # Rol model
 class Rol(models.Model):
+  class Meta:
+    verbose_name        = 'Rol'
+    verbose_name_plural = 'Rollen'
+  # attributes
   rol         = models.CharField('Contact Rol', max_length=100)
   description = models.TextField('Beschrijving', blank=True)
   # secundair
@@ -59,12 +68,9 @@ class Rol(models.Model):
   end_at      = models.DateField('end at', editable=False, blank=True, null=True, help_text='End date of the rol record')
   created     = models.DateTimeField(auto_now_add=True, help_text='Date when the rol was registered in the system')
 
-  class Meta:
-    verbose_name_plural = 'rollen'
-
   # create absolute url to show rol
   def get_absolute_url(self):
-    return reverse("show-contact", args=[self.uuid])
+    return reverse("domeinen:show-rol", args=[self.uuid])
 
   # functie om rol in de admin web-pagina te kunnen presenteren
   def __str__(self):
@@ -72,6 +78,10 @@ class Rol(models.Model):
 
 # Contact model
 class Contact(models.Model):
+  class Meta:
+    verbose_name        = 'Contact'
+    verbose_name_plural = 'Contacten'
+  # attributes
   organisatie = models.CharField('Organisatie', max_length=100) 
   name        = models.CharField('Contactpersoon', max_length=100)
   adres       = models.CharField('Adres', max_length=100, blank=True)
@@ -87,11 +97,8 @@ class Contact(models.Model):
   end_at      = models.DateField('end at', blank=True, null=True, help_text='End date of the contact record')
   created     = models.DateTimeField(auto_now_add=True, help_text='Date when the contact was registered in the system')
 
-  class Meta:
-    verbose_name_plural = 'Contacten'
-
   def get_absolute_url(self):
-    return reverse("show-contact", args=[self.uuid])
+    return reverse("domeinen:show-contact", args=[self.uuid])
 
   # functie om contact in de admin web-pagina te kunnen presenteren
   def __str__(self):
@@ -99,6 +106,10 @@ class Contact(models.Model):
 
 # Domein model
 class Domein(models.Model):
+  class Meta:
+    verbose_name        = 'Domein'
+    verbose_name_plural = 'Domeinen'
+  # attributes
   url          = models.URLField('URL (SLD.TLD)', max_length=100)
   website      = models.BooleanField('Website', default=True)
   description  = models.TextField('Beschrijving', blank=True)
@@ -122,9 +133,6 @@ class Domein(models.Model):
   end_at       = models.DateField('end at', editable=False, blank=True, null=True, help_text='End date of the domein record')
   created      = models.DateTimeField(auto_now_add=True, help_text='Date when the Domein was registered in the system')
 
-  class Meta:
-    verbose_name_plural = 'domeinen'
-  
   # method om te bepalen of domein nog geldig is
   @property
   def valid(self):
@@ -145,7 +153,7 @@ class Domein(models.Model):
 
   # create absolute url to show domein
   def get_absolute_url(self):
-    return reverse("show-domein", args=[self.uuid, self.slug])
+    return reverse("domeinen:show-domein", args=[self.uuid, self.slug])
   
   # override save method to add slug-field
   def save(self, *args, **kwargs):
@@ -158,6 +166,10 @@ class Domein(models.Model):
 
 # Subdomein model
 class Subdomein(models.Model):
+  class Meta:
+    verbose_name        = 'Subdomein'
+    verbose_name_plural = 'Subdomeinen'
+  # attributes
   url          = models.CharField('Subdomain', max_length=100)
   website      = models.BooleanField('Website', default=True)
   description  = models.TextField('Toelichting', blank=True)
@@ -182,9 +194,6 @@ class Subdomein(models.Model):
   end_at       = models.DateField('end at', editable=False, blank=True, null=True, help_text='End date of the subdomein record')
   created      = models.DateTimeField(auto_now_add=True, help_text='Date when the Subdomein was registered in the system')
 
-  class Meta:
-    verbose_name_plural = 'subdomeinen'
-
   # method om te bepalen of subdomein nog geldig is
   @property
   def valid(self):
@@ -205,7 +214,7 @@ class Subdomein(models.Model):
 
   # create absolute url to show subdomein
   def get_absolute_url(self):
-    return reverse("show-subdomein", args=[self.uuid, self.slug])
+    return reverse("domeinen:show-subdomein", args=[self.uuid, self.slug])
   
   # override save method to add slug-field
   def save(self, *args, **kwargs):
@@ -229,6 +238,11 @@ class Certificaattype(models.Model):
 
 # Certificaat model
 class Certificaat(models.Model):
+  class Meta:
+    verbose_name        = 'Certificaat'
+    verbose_name_plural = 'Certificaten'
+    ordering = ['name']
+  # attributes
   name         = models.CharField('Certificaatnaam', max_length=100)
   description  = models.TextField('Beschrijving', blank=True)
   opmerkingen  = models.TextField('Opmerkingen', blank=True)
@@ -247,10 +261,6 @@ class Certificaat(models.Model):
   end_at       = models.DateField('end at', editable=False, blank=True, null=True, help_text='End date of the certificaat record')
   created      = models.DateTimeField(auto_now_add=True, help_text='Date when the certificaat was registered in the system')
 
-  class Meta:
-    ordering = ['name']
-    verbose_name_plural = 'certificaten'
-  
   # method om te bepalen of certificaat nog geldig is
   @property
   def valid(self):
@@ -271,7 +281,7 @@ class Certificaat(models.Model):
     
   # create absolute url to show certificaat
   def get_absolute_url(self):
-    return reverse("show-certificaat", args=[self.uuid])
+    return reverse("domeinen:show-certificaat", args=[self.uuid])
   
   # functie om certificaat in de admin web-pagina te kunnen presenteren
   def __str__(self):
