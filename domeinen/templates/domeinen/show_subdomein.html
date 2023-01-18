@@ -108,7 +108,7 @@
             <br>
             {% if user.is_superuser %}
             <br>
-            <a href="{% url 'domeinen:edit-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-secondary">Edit</a>
+            <a href="{% url 'domeinen:edit-subdomein' subdomein.uuid subdomein.slug %}?next={{request.get_full_path}}" class="btn btn-secondary">Edit</a>
             <a href="{% url 'domeinen:delete-subdomein' subdomein.uuid subdomein.slug %}" class="btn btn-secondary">Delete</a>
           {% endif %}
           <a href="{% url 'domeinen:all-subdomeinen' %}" class="btn btn-secondary">Terug</a>

@@ -96,10 +96,10 @@ def all_services(request):
 
 # show service
 def show_service(request, service_uuid):
-  print(service_uuid)
+  #print(service_uuid)
   try:
     service  = Service.objects.get(uuid=service_uuid)
-    print(service)
+    #print(service)
     title    = 'service: ' + service.naam
     context  = {
       'title'   : title,
@@ -201,7 +201,11 @@ def edit_domein(request, domein_uuid, domein_slug):
   if form.is_valid():
     form.save()
     messages.success(request, ("Domein " + domein.url + " has been updated!"))
-    return redirect('domeinen:all-domeinen')
+    return_url = 'all-domeinen'
+    if request.GET.get('next') is not None:
+      return_url = request.GET.get('next')
+      #print (return_url)
+    return redirect(return_url)
   context = {
     'title' : title,
     'domein': domein, 'form': form

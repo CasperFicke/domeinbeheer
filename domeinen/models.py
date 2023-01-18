@@ -47,6 +47,7 @@ class Service(models.Model):
   # secundair
   uuid        = models.UUIDField(unique=True, default=uuid.uuid4, help_text='Unique identifier (UUID4)')
   
+  # create absolute url to show certificaat
   def get_absolute_url(self):
     return reverse("domeinen:show-service", args=[self.uuid])
   

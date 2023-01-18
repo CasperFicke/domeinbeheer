@@ -58,7 +58,7 @@
               </dl>
             {% if user.is_superuser %}
               <br>
-              <a href="{% url 'domeinen:edit-domein' domein.uuid domein.slug %}" class="btn btn-secondary" >Edit</a>
+              <a href="{% url 'domeinen:edit-domein' domein.uuid domein.slug %}?next={{request.get_full_path}}" class="btn btn-secondary" >Edit</a>
               <a href="{% url 'domeinen:delete-domein' domein.uuid domein.slug %}" class="btn btn-secondary" >Delete</a>
             {% endif %}
             <a href="{% url 'domeinen:all-domeinen' %}" class="btn btn-secondary">Terug</a>

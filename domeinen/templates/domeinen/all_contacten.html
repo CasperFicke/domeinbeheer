@@ -45,7 +45,7 @@
               <td>{{ contact.rol }}</td>
               {% if user.is_authenticated %}
                 {% if user.is_superuser %}
-                  <td><a href="{% url 'domeinen:edit-contact' contact.uuid %}" class="btn btn-outline-secondary">Edit</a></td>
+                  <td><a href="{% url 'domeinen:edit-contact' contact.uuid %}?next={{request.get_full_path}}" class="btn btn-outline-secondary">Edit</a></td>
                 {% else %}
                   <td>Not allowed</td>
                 {% endif %}
