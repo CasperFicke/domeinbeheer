@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
     <!-- App Styles -->
     {% block css_files %}
-    {% endblock css_files%}
+    {% endblock css_files %}
     
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -48,6 +48,8 @@
     </div>
     <!-- Content -->
     <div class="container">
+      {% block nav-btn %}
+      {% endblock nav-btn %}
       {% block content %}
       {% endblock content %}
     </div>         

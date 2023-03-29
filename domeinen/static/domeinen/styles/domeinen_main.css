@@ -1,0 +1,53 @@
+/* domeinen/static/domeinen/css/domeinen_main.css */
+
+.my-btn {
+  width: 120px;
+  margin-bottom: 50px;
+}
+
+#btn-nav {
+  float: right;
+  margin-right: 45px;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.total, .expired {
+  position: absolute;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  margin-top: -37px;
+}
+
+.total {
+  margin-left: 18px;
+  background-color: #007bff;
+}
+
+.expired {
+  margin-left: 14px;
+  background-color: red;
+}
+
+.plus_nine {
+  position: absolute;
+  border-radius: 42%;
+  font-size: 13px;
+  font-weight: bold;
+  width: 32px;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  margin-top: -37px;
+  margin-left: 10px;
+  background-color: red;
+}
+
+.size {
+  font-size: 30px;
+}

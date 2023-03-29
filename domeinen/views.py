@@ -111,12 +111,19 @@ def show_service(request, service_uuid):
 
 # All domeinen
 def all_domeinen(request):
-  title        = 'domeinen'
-  domein_list  = Domein.objects.all().order_by("url")
-  domein_count = domein_list.count()
+  domein_list   = Domein.objects.all().order_by("url")
+  domein_count  = domein_list.count()
+  if domein_count > 0:
+    title = f'({domein_count}) Domeinen'
+  else:
+    title = 'domeinen'
+  expired_count = 0
+  for domein in domein_list:
+    if domein.valid == False:
+      expired_count += 1
   # Filtering
-  domFilter   = DomeinFilter(request.GET, queryset=domein_list)
-  domein_list = domFilter.qs
+  domFilter    = DomeinFilter(request.GET, queryset=domein_list)
+  domein_list  = domFilter.qs
 
   # Set up pagination
   paginator     = Paginator(domein_list, 25) # Show 25 domeinen per page.
@@ -128,6 +135,7 @@ def all_domeinen(request):
     'title'       : title,
     'domein_list' : domein_list,
     'aantal'      : domein_count,
+    'exp_aantal'  : expired_count,
     'page_obj'    : domeinen_page,
     'domFilter'   : domFilter,
     'is_paginated': is_paginated,
